@@ -1,0 +1,12 @@
+a {
+    text-decoration: none;
+}
+
+a:hover,
+a:active {
+    color: lightgray;
+}
+
+.sidenav-list mat-icon{
+    margin: 5px;
+}
