@@ -31,6 +31,7 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
 import { CurrentTrainingComponent } from './training/current-training/current-training.component';
 import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
 import { StopTrainingComponent } from './training/current-training/stop-training/stop-training.component';
+import { AuthService } from './auth/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import { StopTrainingComponent } from './training/current-training/stop-training
     FormsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
