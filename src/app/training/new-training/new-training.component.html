@@ -1,26 +1,23 @@
 <section fxLayout fxLayoutAlign="center" class="new-training">
+  <form (ngSubmit)="onStartTraining(f)" #f="ngForm">
     <mat-card fxFlex="400px" fxFlex.xs="100%">
-        <mat-card-header fxLayoutAlign="center">
-            <mat-card-title>Time to start a workout</mat-card-title>
-        </mat-card-header>
-        <mat-card-content fxLayoutAlign="center" class="card-content">
-            <mat-form-field appearance="outline">
-                <mat-label>Workout</mat-label>
-                <mat-select required>
-                  <mat-option value="crunches">
-                    Crunches
-                  </mat-option>
-                  <mat-option value="touch-toes">
-                    Touch-toes
-                  </mat-option>
-                </mat-select>
-                <!-- <mat-error *ngIf="animalControl.hasError('required')">Please choose an animal</mat-error>
-                <mat-hint>{{animalControl.value?.sound}}</mat-hint> -->
-            </mat-form-field>
-        </mat-card-content>
-        <mat-card-actions fxLayoutAlign="center">
-            <button mat-button type="submit" (click)="startTraining()">Start</button>
-        </mat-card-actions>
-    </mat-card>
+      <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>Time to start a workout</mat-card-title>
+      </mat-card-header>
+      <mat-card-content fxLayoutAlign="center" class="card-content">
+          <mat-form-field appearance="outline">
+              <mat-select placeholder="Choose Exercise" ngModel name="exercise" required>
+                <mat-option *ngFor="let exercise of exercises" [value]="exercise.id">
+                  {{ exercise.name }}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center">
+          <button mat-button type="submit" [disabled]="f.invalid">Start</button>
+      </mat-card-actions>
+  </mat-card>
+  </form>
+    
 </section>
 
