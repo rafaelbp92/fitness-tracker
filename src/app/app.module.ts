@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { SignupComponent } from './auth/signup/signup.component';
 import { TrainingComponent } from './training/training.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -70,6 +71,7 @@ import { TrainingService } from './training/training.service';
     MatDialogModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
     FlexLayoutModule,
     FormsModule,
     AppRoutingModule
