@@ -36,6 +36,9 @@ import { PastTrainingsComponent } from './training/past-trainings/past-trainings
 import { StopTrainingComponent } from './training/current-training/stop-training/stop-training.component';
 import { AuthService } from './auth/services/auth.service';
 import { TrainingService } from './training/training.service';
+import { provideFirebaseApp, initializeApp  } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,9 @@ import { TrainingService } from './training/training.service';
     MatPaginatorModule,
     FlexLayoutModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())
   ],
   providers: [AuthService, TrainingService],
   bootstrap: [AppComponent]
