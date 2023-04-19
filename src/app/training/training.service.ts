@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Subject, map } from 'rxjs';
 
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
@@ -15,11 +15,18 @@ export class TrainingService {
   constructor(private db: Firestore){}
 
   getAvailableExercises() {
-    const availableExercisesCollection = collection(this.db, 'avilable_exercises');
-    collectionData(availableExercisesCollection, {idField: 'id'}).subscribe((exercises: any) => {
+    this.getAvailableExercisesFromDb().subscribe((exercises: Exercise[]) => {
       this.availableExercises = exercises;
       this.exercisesChanged.next([...this.availableExercises]);
     })
+  }
+
+  private getAvailableExercisesFromDb() {
+    const availableExercisesCollection = collection(this.db, 'avilable_exercises');
+    return collectionData(availableExercisesCollection, {idField: 'id'}).pipe(
+      map(exercise => {
+        return JSON.parse(JSON.stringify(exercise)) as Exercise[]
+      }));
   }
 
   startExercise(selectedId: string) {
