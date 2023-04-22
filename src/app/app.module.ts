@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SignupComponent } from './auth/signup/signup.component';
 import { TrainingComponent } from './training/training.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -40,6 +41,7 @@ import { provideFirebaseApp, initializeApp  } from '@angular/fire/app';
 import { getFirestore, provideFirestore, } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
+import { UIService } from './shared/ui.service';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { environment } from 'src/environments/environment';
     MatDialogModule,
     MatTableModule,
     MatSortModule,
+    MatSnackBarModule,
     MatPaginatorModule,
     FlexLayoutModule,
     FormsModule,
@@ -84,7 +87,7 @@ import { environment } from 'src/environments/environment';
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth())
   ],
-  providers: [AuthService, TrainingService],
+  providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
