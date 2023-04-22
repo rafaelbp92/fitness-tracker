@@ -10,8 +10,8 @@ import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { AuthService } from './auth/services/auth.service';
 import { TrainingService } from './training/training.service';
-import { provideFirebaseApp, initializeApp  } from '@angular/fire/app';
-import { getFirestore, provideFirestore, } from '@angular/fire/firestore';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { UIService } from './shared/ui.service';
@@ -24,7 +24,7 @@ import { TrainingModule } from './training/training.module';
     AppComponent,
     WelcomeComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +36,9 @@ import { TrainingModule } from './training/training.module';
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
-    provideAuth(() => getAuth())
+    provideAuth(() => getAuth()),
   ],
   providers: [AuthService, TrainingService, UIService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
