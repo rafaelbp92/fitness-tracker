@@ -2,12 +2,13 @@ import { Subject, map } from 'rxjs';
 
 import { Exercise } from './exercise.model';
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc } from '@angular/fire/firestore';
 
 @Injectable()
 export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
   exercisesChanged = new Subject<Exercise[] | null>();
+  finishedExercisesChanged = new Subject<Exercise[] | null>();
   private availableExercises: Exercise[] = [];
   private runningExercise: Exercise | undefined;
   private exercises: Exercise[] = [];
@@ -40,11 +41,11 @@ export class TrainingService {
 
   completeExercise() {
     if (this.runningExercise) {
-      this.exercises.push({
+      this.addFinishedExercise({
         ...this.runningExercise,
-        date: new Date(),
+        date: new Date,
         state: 'completed'
-      });
+      })
       this.runningExercise = undefined;
       this.exerciseChanged.next(null);
     }
@@ -69,6 +70,18 @@ export class TrainingService {
   }
 
   getCompletedOrCancelledExercises() {
-    return this.exercises.slice();
+    const finishedExercisesCollection = collection(this.db, 'finished_exercises');
+    collectionData(finishedExercisesCollection, {idField: 'id'}).pipe(
+      map(exercise => {
+        return JSON.parse(JSON.stringify(exercise)) as Exercise[]
+      })).subscribe(exercises => {
+        this.finishedExercisesChanged.next(exercises);
+      });
+    
+  }
+
+  private addFinishedExercise(exercise: Exercise) {
+    const finishedExercisesCollection = collection(this.db, 'finished_exercises');
+    addDoc(finishedExercisesCollection, exercise);
   }
 }
