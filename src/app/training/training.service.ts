@@ -46,11 +46,11 @@ export class TrainingService {
 
   completeExercise() {
     if (this.runningExercise) {
-      this.addFinishedExercise({
+      this.finishExercise({
         ...this.runningExercise,
-        date: new Date,
+        date: new Date(),
         state: 'completed'
-      })
+      });
       this.runningExercise = undefined;
       this.exerciseChanged.next(null);
     }
@@ -58,13 +58,13 @@ export class TrainingService {
 
   cancelExercise(progress: number) {
     if (this.runningExercise) {
-      this.exercises.push({
+      this.finishExercise({
         ...this.runningExercise,
+        date: new Date(),
         duration: this.runningExercise.duration * (progress / 100),
         calories: this.runningExercise.calories * (progress / 100),
-        date: new Date(),
         state: 'cancelled'
-      });
+      })
       this.runningExercise = undefined;
       this.exerciseChanged.next(null);
     }
@@ -85,7 +85,7 @@ export class TrainingService {
     
   }
 
-  private addFinishedExercise(exercise: Exercise) {
+  private finishExercise(exercise: Exercise) {
     const finishedExercisesCollection = collection(this.db, 'finished_exercises');
     addDoc(finishedExercisesCollection, exercise);
   }
