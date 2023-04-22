@@ -9,6 +9,7 @@ export class TrainingService {
   exerciseChanged = new Subject<Exercise | null>();
   exercisesChanged = new Subject<Exercise[] | null>();
   finishedExercisesChanged = new Subject<Exercise[] | null>();
+  loadingAvailableExerciesStateChanged = new Subject<boolean>();
   private availableExercises: Exercise[] = [];
   private runningExercise: Exercise | undefined;
   private exercises: Exercise[] = [];
@@ -16,9 +17,13 @@ export class TrainingService {
   constructor(private db: Firestore){}
 
   getAvailableExercises() {
+    this.loadingAvailableExerciesStateChanged.next(true);
     this.getAvailableExercisesFromDb().subscribe((exercises: Exercise[]) => {
       this.availableExercises = exercises;
       this.exercisesChanged.next([...this.availableExercises]);
+      this.loadingAvailableExerciesStateChanged.next(false);
+    }, () => {
+      this.loadingAvailableExerciesStateChanged.next(false);
     })
   }
 

@@ -11,7 +11,10 @@ import { Subscription } from 'rxjs';
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
   exercises: Exercise[] = [];
+  isLoading = false;
   exercisesSubscription: Subscription | undefined;
+  private loadingSubscription: Subscription | undefined;
+
   constructor(private trainingService: TrainingService){}
 
   ngOnInit(): void {
@@ -21,6 +24,13 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.exercises = exercises;
       }
     }); 
+
+    this.loadingSubscription = this.trainingService.loadingAvailableExerciesStateChanged.subscribe(
+      (loading) => {
+        this.isLoading = loading;
+      }
+    );
+
     this.trainingService.getAvailableExercises();
   }
 
@@ -30,5 +40,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.exercisesSubscription?.unsubscribe();
+    this.loadingSubscription?.unsubscribe();
   }
 }

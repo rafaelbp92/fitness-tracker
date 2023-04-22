@@ -1,11 +1,14 @@
 import { Subject } from 'rxjs';
 
-import { User } from '../models/user.model';
 import { AuthData } from '../models/auth-data';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from '@angular/fire/auth';
 import { UIService } from 'src/app/shared/ui.service';
 
 @Injectable()
@@ -14,10 +17,10 @@ export class AuthService {
   private isAuthenticated = false;
 
   constructor(
-    private router: Router, 
-    private angularFireAuth: Auth, 
-    private snackbar : MatSnackBar,
-    private uiService: UIService) {}
+    private router: Router,
+    private angularFireAuth: Auth,
+    private uiService: UIService
+  ) {}
 
   registerUser(authData: AuthData) {
     this.uiService.loadingStateChanged.next(true);
@@ -33,9 +36,7 @@ export class AuthService {
       })
       .catch((error) => {
         console.log(error.message);
-        this.snackbar.open('SignUp failed', undefined, {
-          duration: 3000
-        });
+        this.uiService.showSnackbar('Signup failed', 3000, undefined);
         this.uiService.loadingStateChanged.next(false);
       });
   }
@@ -55,9 +56,7 @@ export class AuthService {
       .catch((error) => {
         this.uiService.loadingStateChanged.next(false);
         console.log(error.message);
-        this.snackbar.open('Login failed', undefined, {
-          duration: 3000
-        });
+        this.uiService.showSnackbar('Login failed', 3000, undefined);
       });
   }
 

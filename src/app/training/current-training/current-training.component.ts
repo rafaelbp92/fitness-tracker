@@ -6,17 +6,18 @@ import { TrainingService } from '../training.service';
 @Component({
   selector: 'app-current-training',
   templateUrl: './current-training.component.html',
-  styleUrls: ['./current-training.component.css']
+  styleUrls: ['./current-training.component.css'],
 })
 export class CurrentTrainingComponent implements OnInit {
   progress = 0;
-  timer : any;
+  timer: any;
 
-  constructor(private dialog: MatDialog, private trainingService: TrainingService) {
+  constructor(
+    private dialog: MatDialog,
+    private trainingService: TrainingService
+  ) {}
 
-  }
-
-  ngOnInit(){
+  ngOnInit() {
     this.startOrResumeTraining();
   }
 
@@ -29,19 +30,19 @@ export class CurrentTrainingComponent implements OnInit {
           clearInterval(this.timer);
           this.trainingService.completeExercise();
         }
-      }, step / 100 * 1000);
+      }, (step / 100) * 1000);
     }
   }
-    
+
   stopWorkout() {
     clearInterval(this.timer);
     const dialogRef = this.dialog.open(StopTrainingComponent, {
       data: {
-        progress: this.progress
-      }
+        progress: this.progress,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.trainingService.cancelExercise(this.progress);
       } else {
