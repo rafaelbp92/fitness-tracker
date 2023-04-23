@@ -14,4 +14,13 @@ export class AuthGuard {
             return false;
         }
     }
+
+    canLoad() {
+        if (this.authService.isAuth()) {
+            return true;
+        } else {
+            this.router.navigate(['/login']);
+            return false;
+        }
+    }
 }

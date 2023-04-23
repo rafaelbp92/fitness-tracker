@@ -8,6 +8,7 @@ import { PastTrainingsComponent } from './past-trainings/past-trainings.componen
 import { StopTrainingComponent } from './current-training/stop-training/stop-training.component';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TrainingRoutingModule } from './training-routing.module';
 
 @NgModule({
   declarations: [
@@ -17,13 +18,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     PastTrainingsComponent,
     StopTrainingComponent,
   ],
-  imports: [CommonModule, MaterialModule, FormsModule, FlexLayoutModule],
-  exports: [
-    TrainingComponent,
-    NewTrainingComponent,
-    CurrentTrainingComponent,
-    PastTrainingsComponent,
-    StopTrainingComponent,
-  ],
+  imports: [CommonModule, MaterialModule, FormsModule, FlexLayoutModule, TrainingRoutingModule],
+  entryComponents: [StopTrainingComponent]
 })
 export class TrainingModule {}
