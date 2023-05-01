@@ -1,18 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { UIService } from 'src/app/shared/ui.service';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
-  private loadingSubscription: Subscription | undefined;
+  isLoading$: Observable<boolean> | undefined;
+  private store: Store<fromRoot.State> | undefined;
 
   constructor(private authService: AuthService, private uiService: UIService) {
     this.loginForm = new FormGroup({
@@ -24,11 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadingSubscription = this.uiService.loadingStateChanged.subscribe(
-      (loading) => {
-        this.isLoading = loading;
-      }
-    );
+    this.isLoading$ = this.store?.select(fromRoot.getIsLoading);
   }
 
   onSubmit() {
@@ -36,9 +35,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: this.loginForm?.value.email,
       password: this.loginForm?.value.password,
     });
-  }
-
-  ngOnDestroy(): void {
-    this.loadingSubscription?.unsubscribe();
   }
 }

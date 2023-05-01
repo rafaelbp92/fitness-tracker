@@ -1,45 +1,31 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TrainingService } from '../training.service';
 import { Exercise } from '../exercise.model';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import * as fromTraining from '../training.reducer';
+import * as fromRoot from '../../app.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-new-training',
   templateUrl: './new-training.component.html',
   styleUrls: ['./new-training.component.css']
 })
-export class NewTrainingComponent implements OnInit, OnDestroy {
-  exercises: Exercise[] = [];
-  isLoading = false;
-  exercisesSubscription: Subscription | undefined;
-  private loadingSubscription: Subscription | undefined;
+export class NewTrainingComponent implements OnInit {
+  exercises$: Observable<Exercise[]> | undefined;
+  isLoading$: Observable<boolean> | undefined;
 
-  constructor(private trainingService: TrainingService){}
+  constructor(private trainingService: TrainingService, private store: Store<fromTraining.State>){}
 
   ngOnInit(): void {
-    //this.exercises = this.trainingService.getAvailableExercises();
-    this.exercisesSubscription = this.trainingService.exercisesChanged.subscribe(exercises => {
-      if (exercises) {
-        this.exercises = exercises;
-      }
-    }); 
-
-    this.loadingSubscription = this.trainingService.loadingAvailableExerciesStateChanged.subscribe(
-      (loading) => {
-        this.isLoading = loading;
-      }
-    );
-
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.exercises$ = this.store.select(fromTraining.getAvailableExercises);
     this.trainingService.getAvailableExercises();
   }
 
   onStartTraining(form: NgForm) {
     this.trainingService.startExercise(form.value.exercise);
-  }
-
-  ngOnDestroy(): void {
-    this.exercisesSubscription?.unsubscribe();
-    this.loadingSubscription?.unsubscribe();
   }
 }

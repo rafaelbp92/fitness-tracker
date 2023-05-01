@@ -17,7 +17,8 @@ import { environment } from 'src/environments/environment';
 import { UIService } from './shared/ui.service';
 import { AuthModule } from './auth/auth.module';
 import { MaterialModule } from './material.module';
-import { TrainingModule } from './training/training.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './app.reducer';
 
 @NgModule({
   declarations: [
@@ -30,13 +31,13 @@ import { TrainingModule } from './training/training.module';
     BrowserModule,
     BrowserAnimationsModule,
     AuthModule,
-    TrainingModule,
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    StoreModule.forRoot(reducers),
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent],

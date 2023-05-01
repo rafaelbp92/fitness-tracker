@@ -1,25 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { TrainingService } from './training.service';
+import { Observable } from 'rxjs';
+import * as fromTraining from './training.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-training',
   templateUrl: './training.component.html',
-  styleUrls: ['./training.component.css']
+  styleUrls: ['./training.component.css'],
 })
 export class TrainingComponent implements OnInit {
-  ongoingTraining = false;
-  exerciceSubscription: Subscription | undefined;
+  ongoingTraining$: Observable<boolean> | undefined;
 
-  constructor(private trainingService: TrainingService){}
+  constructor(private store: Store<fromTraining.State>) {}
 
   ngOnInit(): void {
-    this.exerciceSubscription = this.trainingService.exerciseChanged.subscribe(exercise => {
-      if (exercise) {
-        this.ongoingTraining = true;
-      } else {
-        this.ongoingTraining = false;
-      }
-    });
+    this.ongoingTraining$ = this.store.select(fromTraining.getIsTraining);
   }
 }
