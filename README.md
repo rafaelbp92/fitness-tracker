@@ -3,6 +3,12 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
 This is an Angular web application developed during an Udemy course,
+Some important concepts applied in this project are:
+
+ - Firebase usage as database
+ - RxJS
+ - State management
+ - Unit Tests
 
 ## Screenshots
 
