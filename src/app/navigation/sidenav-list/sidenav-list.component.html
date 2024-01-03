@@ -1,11 +1,11 @@
 <mat-nav-list class="sidenav-list">
-    <mat-list-item *ngIf="!(isAuth$ | async) === false">
+    <mat-list-item *ngIf="(isAuth$ | async) === false">
         <mat-icon matListItemIcon>face</mat-icon>
         <a matListItemTitle routerLink="/signup"  (click)="onToggleSidenav()">                
             <span class="nav-caption">Signup</span>
         </a>
     </mat-list-item>
-    <mat-list-item *ngIf="!(isAuth$ | async) === false">
+    <mat-list-item *ngIf="(isAuth$ | async) === false">
         <mat-icon matListItemIcon>input</mat-icon>
         <a matListItemTitle routerLink="/login"  (click)="onToggleSidenav()">                
             <span class="nav-caption">Login</span>
