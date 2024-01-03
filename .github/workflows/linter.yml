@@ -1,0 +1,28 @@
+name: 'Lint Code'
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs: # list of things to do
+  lint_function_js:
+    name: Linting JavaScript Function 
+    runs-on: ubuntu-latest 
+    steps: # list of steps
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Code Linting
+        run: npm run lint
+        working-directory: src
