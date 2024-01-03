@@ -5,8 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 This is an Angular web application developed during an Udemy course,
 Some important concepts applied in this project are:
 
- - Firebase usage as database
+ - Firestore Database usage as database
  - RxJS
+ - NgRX
  - State management
  - Unit Tests
 
